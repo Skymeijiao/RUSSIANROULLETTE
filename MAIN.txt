@@ -1,0 +1,139 @@
+package CoursCM1;
+import java.util.Scanner;
+
+public class CM_3 {
+
+	static boolean isAlive;
+	static boolean [] gunStorage = new boolean[6];
+	static Scanner sc  = new Scanner(System.in);
+	static Scanner sca = new Scanner(System.in);
+	static Scanner sce = new Scanner(System.in);
+	static int bullet;
+	static String hit;
+	
+	public static void main(String[] args)
+	{
+		System.out.println("Vous jouez à la roulette russe avec un gun a barrillet de 6 balles.");
+		System.out.println("Choissisez le nombres de balles à inserer dans le barrillet :");
+		bullet = sc.nextInt();
+		bulletTest(bullet);
+		gunLoad(bullet);
+		
+		System.out.println("Très bien, Voyons voir si vous avez les couilles plus dur que les bolo-balls.");
+		System.out.println("Voulez vous tirer ? Y ou N :");
+		hit = sca.nextLine();
+		answerTest(hit);
+		answerPath(hit);
+	}
+	public static void bulletTest(int a)
+	{
+		while(a >= 6 || a <= 0)
+		{
+			System.out.println("Vous m'avez bien eu ! Maintenant veuillez rentrer un numbre de balles valide. Entre 1 et 5");
+			a = sc.nextInt();
+		}
+		bullet = a;
+		sc.reset();
+	}
+	public static void gunLoad(int a)
+	{
+		int compteurBullet = 0;
+		while(compteurBullet < a)
+		{
+			for(int i =0 ; i<=a ; i++)
+			{
+				if(gunStorage[i] == false)
+				{
+					if(!(compteurBullet == a))
+					{
+						double b = Math.round(Math.random() * 100);					
+						if(b % 2.0 == 0.0)
+						{
+							gunStorage[i] = true;
+							compteurBullet = compteurBullet + 1;
+						}
+					}
+				}
+			}
+		}
+	}
+	public static void answerTest(String a)
+	{
+		if(!a.equals("Y") && !a.equals("N"))
+		{
+			System.out.println("Vous m'avez bien eu ! Maintenant veuillez rentrer une réponse valide. Entre Y et N");
+			a = sca.nextLine();
+			System.out.println("Vous avez rentré :"+a);
+			hit = a;
+			answerTest(a);
+		}
+	}
+	public static void answerPath(String a)
+	{
+		if(a.equals("Y"))
+		{
+			System.out.println("C'est bien, vous avez des couilles mais ... aucuns neuronnes, pas mal j'aime ça.");
+			System.out.println("Voyons voir maintenant si la menagère va encore gueuler ou pas.");
+			System.out.println();
+			RussianRoulette();
+		}
+		else
+		{
+			System.out.println("Couille molle. Vigile, sort moi cette tappette.");
+		}
+	}
+	public static void RussianRoulette()
+	{
+		if(gunStorage[0])
+		{
+			System.out.println("En plus de ta tête, tu m'as explosé les tympans...");
+			gameOver();
+		}
+		else
+		{
+			for(int i=0;i<gunStorage.length-1;i++)
+			{
+				gunStorage[i] = gunStorage[i+1];
+			}
+			battant();
+		}
+	}
+	public static void battant()
+	{
+		System.out.println("Incroyable ! Tu est maintenant quelqu'un de nouveau ! Tu veux recommencer a tirer  ?");
+		System.out.println("Oui pour re tirer, Non pour arrêter.");
+		String rap = new String();
+		rap = sce.nextLine();
+		if(rap.equals("Oui"))
+		{
+			System.out.println("On peut dire que t'a pas froid aux yeux, fait gaffe c'est pas rassurant");
+			sce.reset();
+			RussianRoulette();
+		}
+		if(rap.equals("Non"))
+		{
+			System.out.println("Looser.");
+			System.exit((0));
+		}
+	}
+	public static void gameOver()
+	{
+		System.out.println("Voulez-vous recommencer depuis le début ?");
+		System.out.println("Oui pour rejouer, Non pour arrêter.");
+		String rep = new String();
+		rep = sce.nextLine();
+		if(rep.equals("Oui"))
+		{
+			System.out.println("Vas-y champion !");
+			sc.reset();
+			sce.reset();
+			sca.reset();
+			main(null);
+		}
+		if(rep.equals("Non"))
+		{
+			System.out.println("Looser.");
+			System.exit((0));	
+		}
+	}
+}
